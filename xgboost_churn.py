@@ -1,4 +1,4 @@
-# Gerekli kütüphaneler
+# Required libraries
 import pandas as pd
 import numpy as np
 import xgboost as xgb
@@ -6,30 +6,30 @@ from sklearn.model_selection import train_test_split, RandomizedSearchCV
 from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
 
-# 1. Veri Yükleme
+# 1. Data Loading
 df = pd.read_csv('churn/WA_Fn-UseC_-Telco-Customer-Churn.csv')
 
-# 2. Veri Temizleme
+# 2. Data Cleaning
 df['TotalCharges'] = pd.to_numeric(df['TotalCharges'], errors='coerce')
 df.dropna(inplace=True)
 df.drop('customerID', axis=1, inplace=True)
 df['Churn'] = df['Churn'].map({'No': 0, 'Yes': 1})
 
-# 3. Yeni Özellik
+# 3. New Feature
 df['TotalRevenue'] = df['MonthlyCharges'] * df['tenure']
 
-# 4. Sayısal / Kategorik Ayırma
+# 4. Separate Numerical / Categorical
 numerical_features = df.select_dtypes(include=['int64', 'float64']).columns.drop('Churn')
 categorical_features = df.select_dtypes(include='object').columns
 
 # 5. One-hot encoding
 df_encoded = pd.get_dummies(df, columns=categorical_features, drop_first=True)
 
-# 6. Sayısal sütunları ölçekle
+# 6. Scale numerical features
 scaler = StandardScaler()
 df_encoded[numerical_features] = scaler.fit_transform(df_encoded[numerical_features])
 
-# 7. X ve y tanımla
+# 7. Define X and y
 X = df_encoded.drop('Churn', axis=1)
 y = df_encoded['Churn']
 
@@ -38,7 +38,7 @@ X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.2, random_state=42, stratify=y
 )
 
-# 9. Hiperparametre Aralığı
+# 9. Hyperparameter Search Space
 param_dist = {
     'n_estimators': [100, 200, 300],
     'max_depth': [3, 5, 7, 10],
@@ -49,7 +49,7 @@ param_dist = {
     'scale_pos_weight': [1, 2, 3]
 }
 
-# 10. Model Nesnesi
+# 10. Model Object
 xgb_base = xgb.XGBClassifier(
     objective='binary:logistic',
     eval_metric='logloss',
@@ -68,15 +68,16 @@ xgb_random_search = RandomizedSearchCV(
     n_jobs=-1
 )
 
-# 12. Eğitim
+# 12. Training
 xgb_random_search.fit(X_train, y_train)
 
-# 13. Tahmin
+# 13. Prediction
 best_xgb = xgb_random_search.best_estimator_
 y_pred_best_xgb = best_xgb.predict(X_test)
 
-# 14. Değerlendirme
+# 14. Evaluation
 print("✅ Optimized XGBoost - Accuracy:", accuracy_score(y_test, y_pred_best_xgb))
 print("✅ Optimized XGBoost - Confusion Matrix:\n", confusion_matrix(y_test, y_pred_best_xgb))
 print("✅ Optimized XGBoost - Classification Report:\n", classification_report(y_test, y_pred_best_xgb))
 print("✅ Best Parameters:\n", xgb_random_search.best_params_)
+

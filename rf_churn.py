@@ -1,4 +1,4 @@
-# Gerekli kütüphaneler
+# Required libraries
 import pandas as pd
 from sklearn.model_selection import train_test_split, RandomizedSearchCV
 from sklearn.ensemble import RandomForestClassifier
@@ -6,14 +6,14 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
 import numpy as np
 
-# 1. Veri Yükleme ve Temizlik
+# 1. Data Loading and Cleaning
 df = pd.read_csv('churn/WA_Fn-UseC_-Telco-Customer-Churn.csv')
 df['TotalCharges'] = pd.to_numeric(df['TotalCharges'], errors='coerce')
 df.dropna(inplace=True)
 df.drop('customerID', axis=1, inplace=True)
 df['Churn'] = df['Churn'].map({'No': 0, 'Yes': 1})
 
-# 2. Yeni Özellik: TotalRevenue
+# 2. New Feature: TotalRevenue
 df['TotalRevenue'] = df['MonthlyCharges'] * df['tenure']
 
 # 3. Feature Engineering
@@ -33,7 +33,7 @@ X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.2, random_state=42, stratify=y
 )
 
-# 5. RandomizedSearchCV ile Random Forest Optimizasyonu
+# 5. Random Forest Optimization with RandomizedSearchCV
 param_dist = {
     'n_estimators': [100, 200, 300, 400],
     'max_depth': [None, 10, 20, 30, 40],
@@ -58,7 +58,7 @@ random_search = RandomizedSearchCV(
 
 random_search.fit(X_train, y_train)
 
-# 6. En iyi model ile değerlendirme
+# 6. Evaluation with Best Model
 best_rf = random_search.best_estimator_
 y_pred_best = best_rf.predict(X_test)
 
@@ -66,3 +66,4 @@ print("Optimized Random Forest - Accuracy:", accuracy_score(y_test, y_pred_best)
 print("Optimized Random Forest - Confusion Matrix:\n", confusion_matrix(y_test, y_pred_best))
 print("Optimized Random Forest - Classification Report:\n", classification_report(y_test, y_pred_best))
 print("Best Parameters:\n", random_search.best_params_)
+
