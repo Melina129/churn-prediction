@@ -1,7 +1,7 @@
  Churn Prediction Project 📊
 
 ## Project Description
-This project focuses on predicting customer churn using supervised machine learning techniques such as Logistic Regression, Random Forest, and XGBoost. The goal is to identify customers likely to leave a subscription-based service, enabling proactive customer retention strategies.
+This project focuses on predicting customer churn (from kaggle) using supervised machine learning techniques such as Logistic Regression, Random Forest, and XGBoost. The goal is to identify customers likely to leave a subscription-based service, enabling proactive customer retention strategies.
 
 ---
 
