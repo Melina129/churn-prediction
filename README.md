@@ -29,9 +29,9 @@ churn-prediction/
 ## Model Performance (Example Results)
 | Model               | Accuracy | Precision | Recall | F1-Score |
 |---------------------|----------|-----------|--------|----------|
-| Logistic Regression | 86%      | 82%       | 78%    | 80%      |
-| Random Forest       | 90%      | 88%       | 84%    | 86%      |
-| XGBoost             | 92%      | 89%       | 87%    | 88%      |
+| Logistic Regression | 0.73     | 0.49      | 0.79   | 0.61     |
+| Random Forest       | 0.76     | 0.53      | 0.76   | 0.63     |
+| XGBoost             | 0.72     | 0.49      | 0.82   | 0.61     |
 
 *Note: These are example scores. Actual results may vary depending on hyperparameters and data split.*
 ---
@@ -50,7 +50,7 @@ python XGboost_churn.py
 
 ## Author
 
-**[@Melina129](https://github.com/Melina129)**
+Created by [Melina129](https://github.com/Melina129)
 
 
 
