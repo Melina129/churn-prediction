@@ -1,16 +1,18 @@
-# Churn Prediction Project 📊
+ Churn Prediction Project 📊
 
 ## Project Description
-This repository contains a customer churn prediction project developed using Machine Learning techniques, including Logistic Regression, Random Forest, and XGBoost. The aim is to identify customers who are likely to leave the company and help reduce churn through data-driven decision-making.
+This project focuses on predicting customer churn using supervised machine learning techniques such as Logistic Regression, Random Forest, and XGBoost. The goal is to identify customers likely to leave a subscription-based service, enabling proactive customer retention strategies.
 
 ---
 
 ## Technologies & Libraries Used
 - Python
 - pandas
+- numpy
 - scikit-learn
 - XGBoost
-- matplotlib
+- StandardScaler
+- RandomizedSearchCV
 
 ---
 
@@ -31,6 +33,7 @@ churn-prediction/
 | Random Forest       | 90%      | 88%       | 84%    | 86%      |
 | XGBoost             | 92%      | 89%       | 87%    | 88%      |
 
+*Note: These are example scores. Actual results may vary depending on hyperparameters and data split.*
 ---
 
 ## How to Use
